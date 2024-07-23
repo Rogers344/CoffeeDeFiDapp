@@ -1,9 +1,10 @@
 const hre = require("hardhat");
+const ethers = hre.ethers;  // Ensure ethers is correctly referenced
 
 // Returns the Ether balance of a given address.
 async function getBalance(address) {
-    const balanceBigInt = await hre.ethers.provider.getBalance(address);
-    return hre.ethers.utils.formatEther(balanceBigInt);
+    const balanceBigInt = await ethers.provider.getBalance(address);
+    return ethers.utils.formatEther(balanceBigInt);
 }
 
 // Logs the Ether balances for a list of addresses.
@@ -28,11 +29,11 @@ async function printMemos(memos) {
 
 async function main() {
     // Get example accounts
-    const [owner, tipper, tipper2, tipper3] = await hre.ethers.getSigners();
+    const [owner, tipper, tipper2, tipper3] = await ethers.getSigners();
     
     // Get the contract to deploy & deploy
     console.log("Fetching contract factory...");
-    const BuyMeACoffee = await hre.ethers.getContractFactory("BuyMeACoffee");
+    const BuyMeACoffee = await ethers.getContractFactory("BuyMeACoffee");
     console.log("Deploying contract...");
     const buyMeACoffee = await BuyMeACoffee.deploy();
 
@@ -41,12 +42,8 @@ async function main() {
     console.log("Full contract object:", buyMeACoffee);
 
     // Wait for the contract to be deployed
-    if (buyMeACoffee.deployTransaction) {
-        await buyMeACoffee.deployTransaction.wait();
-        console.log("BuyMeACoffee deployed to:", buyMeACoffee.address);
-    } else {
-        console.error("Deploy transaction not found on the contract object.");
-    }
+    const receipt = await buyMeACoffee.deployTransaction.wait();
+    console.log("BuyMeACoffee deployed to:", buyMeACoffee.address);
 
     // Log balances
     const addresses = [owner.address, tipper.address, buyMeACoffee.address];
@@ -55,7 +52,7 @@ async function main() {
     
     // Buy the owner a few coffees
     console.log("Buying coffee...");
-    const tip = { value: hre.ethers.utils.parseEther("1") };
+    const tip = { value: ethers.utils.parseEther("1") };
     await buyMeACoffee.connect(tipper).buyCoffee("Tipper1", "Great coffee!", tip);
     await buyMeACoffee.connect(tipper2).buyCoffee("Tipper2", "Really good!", tip);
     await buyMeACoffee.connect(tipper3).buyCoffee("Tipper3", "Nice!", tip);
