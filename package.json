@@ -1,9 +1,10 @@
 {
-  "name": "contracts",
+  "name": "CoffeeDeFiDapp",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "npx npm-force-resolutions"
   },
   "keywords": [],
   "author": "",
@@ -12,9 +13,10 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "ethers": "^6.13.1",
-    "hardhat": "^2.22.6"
+    "hardhat": "^2.22.6",
+    "npm-force-resolutions": "^0.0.3"
   },
-  "dependencies": {
-    "dotenv": "^16.4.5"
+  "resolutions": {
+    "ethers": "6.13.1"
   }
 }
