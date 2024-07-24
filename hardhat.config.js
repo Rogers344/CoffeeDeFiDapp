@@ -13,7 +13,7 @@ module.exports = {
   },
   networks: {
     hardhat: {
-      // Local Hardhat network configuration
+      chainId: 1337,// Local Hardhat network configuration
     },
   },
 };
