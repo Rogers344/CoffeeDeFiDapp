@@ -1,5 +1,6 @@
 const hre = require("hardhat");
 
+//helper functions
 async function getBalance(address) {
     const balanceBigInt = await hre.ethers.provider.getBalance(address);
     return hre.ethers.formatEther(balanceBigInt);
